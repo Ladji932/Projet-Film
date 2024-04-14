@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Films</title>
+</head>
+
+<body>
+    <h1>Suppression Films</h1>
+    <% if (films.length===0) { %>
+        <p>Aucun film disponible.</p>
+        <% } else { %>
+            <ol>
+                <% films.forEach(function(film) { %>
+                    <li>
+                        <%= film.director %> - <%= film._id %>
+                                <!-- Formulaire pour supprimer le film -->
+                                <form action="/deleteFilm/<%= film._id %>" method="POST">
+                                    <!-- Ajouter un champ caché pour le jeton CSRF -->
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit">Supprimer</button>
+                                </form>
+                    </li>
+                    <% }); %>
+            </ol>
+            <% } %>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+</head>
+
+<body>
+    <h1>Ajouter des films</h1>
+    <form action="/addForm" method="post">
+        <!-- Ajouter un champ caché pour le jeton CSRF -->
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <label for="name">Nom du film à ajouter</label>
+        <input type="text" name="originalTitle" placeholder="Nom du film" id="nameFilm">
+
+        <br>
+
+        <label for="date">Réalisateur</label>
+        <input type="text" name="director" placeholder="Nom du réalisateur" id="director">
+
+        <br>
+
+        <label for="ndm">Année de production</label>
+        <input type="text" name="years" placeholder="Année de production" id="years">
+
+        <br>
+
+        <label for="tdm">Nationalité</label>
+        <input type="text" name="langue" placeholder="Nationalité" id="langue">
+
+        <br>
+
+        <label for="time">Durée</label>
+        <input type="text" name="time" placeholder="Durée" id="time">
+
+        <br>
+
+        <label for="text">Synopsis</label>
+        <input type="text" name="text" placeholder="Synopsis" id="gendre">
+
+        <button type="submit">Envoyer</button>
+    </form>
+</body>
+
+</html>
