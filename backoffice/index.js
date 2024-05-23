@@ -8,7 +8,11 @@ app.set('view engine', 'ejs');
 dotenv.config();
 
 //mongoose.connect('mongodb://localhost:27017/filmsDB');
-mongoose.connect('mongodb+srv://maigaladji47:Lmaiga28032002.@cluster0.dsdxrbb.mongodb.net/filmsDB');
+mongoose.connect('mongodb+srv://maigaladji47:Lmaiga28032002.@cluster0.dsdxrbb.mongodb.net/filmsDB', { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000 // Augmente le délai de sélection du serveur
+});
 //console.log(process.env.MONGODB_URI)
 //mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
