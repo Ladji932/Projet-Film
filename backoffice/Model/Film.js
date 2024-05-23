@@ -7,7 +7,8 @@ const filmSchema = new mongoose.Schema({
     country: String,
     time: String,
     gender: String,
-    synopsis: String
+    synopsis: String,
+    Titre: String
 });
 
 const Film = mongoose.model('Film', filmSchema);

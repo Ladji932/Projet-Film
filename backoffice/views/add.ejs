@@ -10,7 +10,6 @@
 <body>
     <h1>Ajouter des films</h1>
     <form action="/addForm" method="post">
-        <!-- Ajouter un champ caché pour le jeton CSRF -->
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
         <label for="name">Nom du film à ajouter</label>
