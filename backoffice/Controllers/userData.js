@@ -1,6 +1,6 @@
 const User = require('../Model/Users');
 const Film = require('../Model/Film');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secretKey = 'lad_270';
 const fs = require('fs');
