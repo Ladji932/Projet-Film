@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backoffice/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "frontOffice/build/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backoffice/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontoffice/film-project/build/index.html"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -6,34 +6,49 @@ import { Link } from 'react-router-dom';
 function Home({ setIsLoggedIn, csrfToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Validation des champs vides
+    if (!username || !password) {
+      setError("Veuillez remplir tous les champs.");
+      return;
+    }
+
     try {
       const response = await axios.post(
         'http://localhost:4040/login',
         { username, password },
         { headers: { 'CSRF-Token': csrfToken } }
       );
-      const { token } = response.data;
-      localStorage.setItem('token', token);
-      setIsLoggedIn(true);
-      navigate('/Film');
+
+      // Vérifier si response est défini
+      if (response && response.data) {
+        const { token, userId } = response.data; // Récupération de l'ID de l'utilisateur
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId); // Stockage de l'ID de l'utilisateur dans le stockage local
+        setIsLoggedIn(true);
+        navigate('/Film');
+      } else {
+        setError("Réponse de serveur incorrecte");
+      }
     } catch (error) {
-      console.error('Erreur lors de la connexion:', error.response.data.message);
+      setError(error.response.data.message);
     }
   };
 
   return (
-    <div className='Home'>
-      <form onSubmit={handleLogin}>
-        <input type="text" placeholder="Nom d'utilisateur" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <br />
-        <button type="submit">Connexion</button>
+    <div className='flex flex-col items-center justify-center h-screen bg-gray-100'>
+      <form onSubmit={handleLogin} className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        <input className="mb-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Nom d'utilisateur" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input className="mb-6 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Connexion</button>
       </form>
-      <Link to="/inscription">Vous n'avez pas de compte ? Inscrivez-vous ici</Link>
+      <Link to="/inscription" className="text-gray-600">Vous n'avez pas de compte ? Inscrivez-vous ici</Link>
     </div>
   );
 }
