@@ -24,6 +24,4 @@ db.once('open', function() {
 
 app.use('/', routes);
 
-app.listen(() => {
-    console.log(`Serveur démarré`);
-});
+module.exports = app;
