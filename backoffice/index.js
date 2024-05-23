@@ -9,7 +9,7 @@ dotenv.config();
 
 // Connexion à MongoDB avec les options mises à jour
 //mongoose.connect('mongodb://localhost:27017/filmsDB');
-mongoose.connect('mongodb+srv://maigaladji47:Lmaiga28032002.@cluster0.dsdxrbb.mongodb.net/filmsDB');
+mongoose.connect('mongodb+srv://maigaladji47:Lmaiga28032002.@cluste0.dsdxrbb.mongodb.net/filmsDB');
 /*mongoose.connect(process.env.MONGODB_URI, { 
   serverSelectionTimeoutMS: 30000, // Délai de sélection du serveur (30 secondes)
   connectTimeoutMS: 30000, // 30 secondes pour la connexion
