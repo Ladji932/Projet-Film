@@ -6,7 +6,7 @@
       "use": "@vercel/node"
     },
     {
-      "src": "frontoffice/film-project/build/**/*",
+      "src": "frontoffice/film-project/dist/**/*", 
       "use": "@vercel/static"
     }
   ],
@@ -17,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/frontoffice/film-project/build/index.html"
+      "dest": "/frontoffice/film-project/dist/index.html" 
     }
   ]
 }
