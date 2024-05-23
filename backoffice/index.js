@@ -8,8 +8,9 @@ app.set('view engine', 'ejs');
 dotenv.config();
 
 //mongoose.connect('mongodb://localhost:27017/filmsDB');
+mongoose.connect('mongodb+srv://maigaladji47:Lmaiga28032002.@cluster0.dsdxrbb.mongodb.net/filmsDB');
 //console.log(process.env.MONGODB_URI)
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Erreur de connexion à MongoDB : '));
 db.once('open', function() {
