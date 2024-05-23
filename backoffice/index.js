@@ -24,7 +24,6 @@ db.once('open', function() {
 
 app.use('/', routes);
 
-const port = process.env.PORT || 4040;
 app.listen(() => {
-    console.log(`Serveur démarré sur le port ${port}`);
+    console.log(`Serveur démarré`);
 });
