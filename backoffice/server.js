@@ -14,6 +14,16 @@ db.once('open', function() {
 
 app.use('/', routes);
 
+/*Vercel*/
+app.use(express.static(path.join(__dirname, '..', 'frontoffice', 'film-project', 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontoffice', 'film-project', 'build', 'index.html'));
+});
+
+
+
+
 const port = 4040;
 app.listen(port, () => {
     console.log(`Serveur démarré sur le port ${port}`);
