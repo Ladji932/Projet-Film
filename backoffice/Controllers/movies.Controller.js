@@ -75,8 +75,6 @@ const watchExcelFile = async () => {
              await Film.deleteMany();
             await readFilmxlsx();
         });
-
-        console.log('Chokidar surveille les modifications du fichier Excel.');
     } catch (error) {
         console.error('Erreur lors de la surveillance du fichier Excel :', error);
     }
