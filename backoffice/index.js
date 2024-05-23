@@ -11,9 +11,10 @@ dotenv.config();
 //mongoose.connect('mongodb://localhost:27017/filmsDB');
 
 mongoose.connect(process.env.MONGODB_URI, { 
-  serverSelectionTimeoutMS: 900000, // Délai de sélection du serveur (30 secondes)
+  serverSelectionTimeoutMS: 30000, // Délai de sélection du serveur (30 secondes)
   connectTimeoutMS: 30000, // 30 secondes pour la connexion
-  socketTimeoutMS: 45000 // 45 secondes pour les opérations de socket
+  socketTimeoutMS: 45000, // 45 secondes pour les opérations de socket
+  maxDuration: 5000 // Durée maximale d'exécution de la fonction sans serveur (5 secondes)
 });
 
 const db = mongoose.connection;
