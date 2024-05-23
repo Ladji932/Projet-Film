@@ -9,6 +9,7 @@ dotenv.config();
 
 // Connexion à MongoDB avec les options mises à jour
 //mongoose.connect('mongodb://localhost:27017/filmsDB');
+
 mongoose.connect(process.env.MONGODB_URI, { 
   serverSelectionTimeoutMS: 30000, // Délai de sélection du serveur (30 secondes)
   connectTimeoutMS: 30000, // 30 secondes pour la connexion
@@ -24,6 +25,6 @@ db.once('open', function() {
 app.use('/', routes);
 
 const port = process.env.PORT || 4040;
-app.listen(port, () => {
+app.listen(() => {
     console.log(`Serveur démarré sur le port ${port}`);
 });
