@@ -1,3 +1,4 @@
+//mongoose.connect('mongodb://localhost:27017/filmsDB');
 const express = require('express');
 const app = express();
 const routes = require('./Routes/router');
@@ -7,21 +8,34 @@ app.set('view engine', 'ejs');
 
 dotenv.config();
 
-// Connexion à MongoDB avec les options mises à jour
-//mongoose.connect('mongodb://localhost:27017/filmsDB');
+// Log pour vérifier le chargement du fichier .env
+console.log('Configuration chargée depuis le fichier .env');
+
+// Log pour la chaîne de connexion MongoDB
+console.log('URI MongoDB :', process.env.MONGODB_URI);
 
 mongoose.connect(process.env.MONGODB_URI, { 
-  serverSelectionTimeoutMS: 30000, // Délai de sélection du serveur (30 secondes)
-  connectTimeoutMS: 30000, // 30 secondes pour la connexion
-  socketTimeoutMS: 45000, // 45 secondes pour les opérations de socket
+  serverSelectionTimeoutMS: 30000, 
+  connectTimeoutMS: 30000, 
+  socketTimeoutMS: 45000
 });
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Erreur de connexion à MongoDB : '));
+db.on('error', (error) => {
+  console.error('Erreur de connexion à MongoDB : ', error);
+});
 db.once('open', function() {
   console.log("Connecté à MongoDB");
 });
 
-app.use('/', routes);
+app.use('/', (req, res, next) => {
+  console.log('Requête reçue pour : ', req.url);
+  next();
+}, routes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Serveur démarré sur le port ${PORT}`);
+});
 
 module.exports = app;
