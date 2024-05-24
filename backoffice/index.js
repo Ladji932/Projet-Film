@@ -8,11 +8,9 @@ app.set('view engine', 'ejs');
 
 dotenv.config();
 
-// Log pour vérifier le chargement du fichier .env
 console.log('Configuration chargée depuis le fichier .env');
 console.log('URI MongoDB :', process.env.MONGODB_URI);
 
-// Connexion simplifiée à MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   serverSelectionTimeoutMS: 30000,
   connectTimeoutMS: 30000,
@@ -35,6 +33,11 @@ app.use((req, res, next) => {
   console.log('Requête reçue pour : ', req.url);
   next();
 }, routes);
+
+// Route de test
+app.get('/test', (req, res) => {
+  res.send('Serveur opérationnel');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
