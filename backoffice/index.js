@@ -10,14 +10,16 @@ dotenv.config();
 
 // Log pour vérifier le chargement du fichier .env
 console.log('Configuration chargée depuis le fichier .env');
-
-// Log pour la chaîne de connexion MongoDB
 console.log('URI MongoDB :', process.env.MONGODB_URI);
 
-mongoose.connect(process.env.MONGODB_URI, { 
-  serverSelectionTimeoutMS: 30000, 
-  connectTimeoutMS: 30000, 
-  socketTimeoutMS: 45000
+// Connexion simplifiée à MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log('Connecté à MongoDB');
+}).catch(err => {
+  console.error('Erreur lors de la connexion à MongoDB :', err);
 });
 
 const db = mongoose.connection;
@@ -25,10 +27,10 @@ db.on('error', (error) => {
   console.error('Erreur de connexion à MongoDB : ', error);
 });
 db.once('open', function() {
-  console.log("Connecté à MongoDB");
+  console.log("Connexion à MongoDB ouverte");
 });
 
-app.use('/', (req, res, next) => {
+app.use((req, res, next) => {
   console.log('Requête reçue pour : ', req.url);
   next();
 }, routes);
