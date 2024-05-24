@@ -14,8 +14,9 @@ console.log('URI MongoDB :', process.env.MONGODB_URI);
 
 // Connexion simplifiée à MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 30000,
+  connectTimeoutMS: 30000,
+  socketTimeoutMS: 45000,
 }).then(() => {
   console.log('Connecté à MongoDB');
 }).catch(err => {
