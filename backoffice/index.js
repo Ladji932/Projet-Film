@@ -30,10 +30,13 @@ db.once('open', function() {
   console.log("Connexion à MongoDB ouverte");
 });
 
+// Utiliser les routes définies dans ./Routes/router
+app.use(routes);
+
 app.use((req, res, next) => {
   console.log('Requête reçue pour : ', req.url);
   next();
-}, routes);
+});
 
 // Route de test
 app.get('/test', (req, res) => {
