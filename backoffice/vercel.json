@@ -1,14 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "backoffice/index.js": {
-      "maxDuration": 10
-    }
-  },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/backoffice/index.js"
+      "dest": "index.js"
     }
   ]
 }
