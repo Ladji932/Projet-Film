@@ -1,7 +1,6 @@
-//mongoose.connect('mongodb://localhost:27017/filmsDB');
 const express = require('express');
 const app = express();
-const routes = require('../Routes/router');
+const routes = require('./Routes/router');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 app.set('view engine', 'ejs');
@@ -10,6 +9,8 @@ dotenv.config();
 
 console.log('Configuration chargée depuis le fichier .env');
 console.log('URI MongoDB :', process.env.MONGODB_URI);
+
+//mongoose.connect('mongodb://localhost:27017/filmsDB');
 
 mongoose.connect(process.env.MONGODB_URI, {
   serverSelectionTimeoutMS: 30000,
