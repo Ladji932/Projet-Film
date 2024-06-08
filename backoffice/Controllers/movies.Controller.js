@@ -27,18 +27,16 @@ const readFilmxlsx = async () => {
             console.error("Le fichier Excel n'existe pas.");
             return;
         }
-
         const data = fs.readFileSync(filePath);
         const workbook = XLSX.read(data, { type: 'buffer' });
         const firstSheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheetName];
         const filmsData = XLSX.utils.sheet_to_json(worksheet);
-
         for (const filmData of filmsData) {
             try {
                 const existingFilm = await Film.findOne({ originalTitle: filmData.Titre });
                 if (existingFilm) {
-                    console.log(`Le film "${filmData.Titre}" existe déjà dans la base de données. Ignoré.`);
+                   // console.log(`Le film "${filmData.Titre}" existe déjà dans la base de données. Ignoré.`);
                     continue; 
                 }
 
@@ -84,25 +82,26 @@ watchExcelFile();
 
 module.exports.FetchMovies = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1; 
-        const limit = parseInt(req.query.limit) || 70; 
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 70;
         const startIndex = (page - 1) * limit;
 
-       
-
-        const filmsCount = await Film.countDocuments();
+        let filmsCount = await Film.countDocuments().maxTimeMS(20000); 
 
         if (filmsCount === 0) {
             await readFilmxlsx(); 
+            filmsCount = await Film.countDocuments(); 
         }
 
         const films = await Film.find().skip(startIndex).limit(limit);
         res.json(films);
     } catch (error) {
-        console.log(error);
-        res.status(500).send("Une erreur s'est produite");
+        console.error('Une erreur s\'est produite lors de la récupération des films :', error);
+        res.status(500).send('Une erreur s\'est produite lors de la récupération des films.',);
     }
 };
+
+
 
 module.exports.SearchMovies = async (req, res) => {
     try {

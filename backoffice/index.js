@@ -1,46 +1,64 @@
 const express = require('express');
 const app = express();
-const routes = require('./Routes/router');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-app.set('view engine', 'ejs');
+const routes = require('./Routes/router');
 
 dotenv.config();
+
+app.set('view engine', 'ejs');
 
 console.log('Configuration chargée depuis le fichier .env');
 console.log('URI MongoDB :', process.env.MONGODB_URI);
 
-//mongoose.connect('mongodb://localhost:27017/filmsDB');
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 120000,  // 2 minutes
+      connectTimeoutMS: 120000,          // 2 minutes
+      socketTimeoutMS: 120000,           // 2 minutes
+    });
+    console.log('Connecté à MongoDB');
+  } catch (err) {
+    console.error('Erreur lors de la connexion à MongoDB :', err);
+  }
+};
 
-mongoose.connect(process.env.MONGODB_URI, {
-  serverSelectionTimeoutMS: 30000,
-  connectTimeoutMS: 30000,
-  socketTimeoutMS: 45000,
-}).then(() => {
-  console.log('Connecté à MongoDB');
-}).catch(err => {
-  console.error('Erreur lors de la connexion à MongoDB :', err);
-});
+connectToDatabase();
 
 const db = mongoose.connection;
 db.on('error', (error) => {
   console.error('Erreur de connexion à MongoDB : ', error);
 });
-db.once('open', function() {
+
+db.once('open', async function() {
   console.log("Connexion à MongoDB ouverte");
+
+  try {
+    // Vérification de l'existence de la collection 'films'
+    const collections = await mongoose.connection.db.listCollections({ name: 'films' }).toArray();
+    if (collections.length === 0) {
+      console.log("La collection 'films' n'existe pas.");
+    } else {
+      console.log("La collection 'films' existe.");
+      // Vérification des documents dans la collection 'films'
+      const result = await mongoose.connection.db.collection('films').find().limit(1).toArray();
+      console.log('Films récupérés :', result);
+    }
+
+    // Testez une requête simple pour vérifier la connexion
+    const count = await mongoose.connection.db.collection('films').countDocuments();
+    console.log('Nombre de documents dans la collection films :', count);
+  } catch (err) {
+    console.error('Erreur lors de la récupération des films ou du comptage des documents :', err);
+  }
 });
 
-// Utiliser les routes définies dans ./Routes/router
 app.use(routes);
 
 app.use((req, res, next) => {
   console.log('Requête reçue pour : ', req.url);
   next();
-});
-
-// Route de test
-app.get('/test', (req, res) => {
-  res.send('Serveur opérationnel');
 });
 
 const PORT = process.env.PORT || 3000;
@@ -49,3 +67,5 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+//mongoose.connect('mongodb://localhost:27017/filmsDB');
