@@ -15,7 +15,7 @@ function Header({ handleLogout }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:4040/search', { query: searchTerm });
+            const response = await axios.post('http://maigalm.alwaysdata.net/search', { query: searchTerm });
             const searchData = response.data;
             window.location.href = `/search-results/${encodeURIComponent(JSON.stringify(searchData))}`;
         } catch (error) {
@@ -26,7 +26,7 @@ function Header({ handleLogout }) {
     async function fetchAvatar() {
         try {
             const userId = localStorage.getItem('userId');
-            const avatarResponse = await axios.get(`http://localhost:4040/avatar/${userId}`, {
+            const avatarResponse = await axios.get(`http://maigalm.alwaysdata.net/avatar/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
@@ -45,7 +45,7 @@ function Header({ handleLogout }) {
         <header className="bg-gray-800 py-4 fixed w-full top-0 z-10">
             <nav className="container mx-auto flex justify-between items-center px-4">
                 <div className="flex items-center">
-                    <Link to="/film" className="text-white text-2xl font-bold">Cinéthèque</Link>
+                    <Link to="/film" className="text-white text-2xl font-bold">Ladji</Link>
                     <form onSubmit={handleSubmit} className="ml-4">
                         <input
                             type="text"
@@ -58,7 +58,7 @@ function Header({ handleLogout }) {
                     </form>
                 </div>
                 <div className="flex items-center justify-center flex-grow">
-                    {avatar && <img src={`data:image/jpeg;base64,${avatar}`} alt="Avatar de l'utilisateur" className="h-10 w-10 rounded-full border-2 border-red-500 mx-auto" />}
+                    {avatar && <img src={`data:image/jpeg;base64,${avatar}`} alt="Avatar de l'utilisateur" className="h-10 w-10 rounded-full border-2 border-black-500 mx-auto" />}
                 </div>
                 <div>
                     <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-red-500 font-bold hover:text-red-300 focus:outline-none">

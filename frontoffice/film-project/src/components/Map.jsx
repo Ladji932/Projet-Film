@@ -18,7 +18,7 @@ function Map({ userLocation , setIsLoggedIn }) {
       try {
         if (!userLocation) return;
         const { latitude, longitude } = userLocation;
-        const response = await axios.get(`http://localhost:4040/festivalOne/${latitude}/${longitude}`);
+        const response = await axios.get(`http://maigalm.alwaysdata.net/festivalOne/${latitude}/${longitude}`);
         setFestivals(response.data);
         setDataLoaded(true);
       } catch (error) {

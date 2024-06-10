@@ -16,7 +16,7 @@ function Favoris({ setIsLoggedIn }) {
           return;
         }
 
-        const response = await axios.get(`http://localhost:4040/favoris/${userId}`, {
+        const response = await axios.get(`http://maigalm.alwaysdata.net/favoris/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -60,7 +60,7 @@ function Favoris({ setIsLoggedIn }) {
   const handleRemoveFavoris = async (filmId) => {
     try {
       const userId = localStorage.getItem('userId');
-      await axios.delete(`http://localhost:4040/favoris/remove/${userId}/${filmId}`);
+      await axios.delete(`http://maigalm.alwaysdata.net/favoris/remove/${userId}/${filmId}`);
 
       setFavoris(prevFavoris => prevFavoris.filter(film => film._id !== filmId));
     } catch (error) {

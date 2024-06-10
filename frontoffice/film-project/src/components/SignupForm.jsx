@@ -25,7 +25,7 @@ const SignupForm = ({ csrfToken }) => {
       userData.append('avatar', avatar);
 
       const response = await axios.post(
-        'http://localhost:4040/inscription',
+        'http://maigalm.alwaysdata.net/inscription',
         userData,
         {
           headers: {

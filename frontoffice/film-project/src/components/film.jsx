@@ -47,13 +47,13 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
 
       const [favorisResponse, vusResponse, aVoirResponse] = await Promise.all([
-        axios.get(`http://localhost:4040/favoris/${userId}`, {
+        axios.get(`http://maigalm.alwaysdata.net/favoris/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        axios.get(`http://localhost:4040/vu/${userId}`, {
+        axios.get(`http://maigalm.alwaysdata.net/vu/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        axios.get(`http://localhost:4040/aVoir/${userId}`, {
+        axios.get(`http://maigalm.alwaysdata.net/aVoir/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
       ]);
@@ -88,7 +88,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
         return;
       }
 
-      const filmResponse = await axios.get(`http://localhost:4040?page=${page}&limit=72`, {
+      const filmResponse = await axios.get(`http://maigalm.alwaysdata.net?page=${page}&limit=72`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -134,7 +134,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
 
     if (isFilmInFavoris(filmId)) {
       try {
-        await axios.delete(`http://localhost:4040/favoris/remove/${userId}/${filmId}`, {
+        await axios.delete(`http://maigalm.alwaysdata.net/favoris/remove/${userId}/${filmId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setFavorisIds(prevFavorisIds => prevFavorisIds.filter(id => id !== filmId));
@@ -143,7 +143,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
     } else {
       try {
-        await axios.post('http://localhost:4040/favorisPost/add', {
+        await axios.post('http://maigalm.alwaysdata.net/favorisPost/add', {
           userId: userId,
           movieId: filmId
         });
@@ -160,7 +160,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
 
     if (isFilmInVu(filmId)) {
       try {
-        await axios.delete(`http://localhost:4040/vus/remove/${userId}/${filmId}`, {
+        await axios.delete(`http://maigalm.alwaysdata.net/vus/remove/${userId}/${filmId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setVuIds(prevVuIds => prevVuIds.filter(id => id !== filmId));
@@ -169,7 +169,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
     } else {
       try {
-        await axios.post('http://localhost:4040/vu/add', {
+        await axios.post('http://maigalm.alwaysdata.net/vu/add', {
           userId: userId,
           movieId: filmId
         });
@@ -186,7 +186,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
 
     if (isFilmInAVoir(filmId)) {
       try {
-        await axios.delete(`http://localhost:4040/aVoir/remove/${userId}/${filmId}`, {
+        await axios.delete(`http://maigalm.alwaysdata.net/aVoir/remove/${userId}/${filmId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setAVoirIds(prevAVoirIds => prevAVoirIds.filter(id => id !== filmId));
@@ -195,7 +195,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
     } else {
       try {
-        await axios.post('http://localhost:4040/aVoir/voirAdd', {
+        await axios.post('http://maigalm.alwaysdata.net/aVoir/voirAdd', {
           userId: userId,
           movieId: filmId
         });
@@ -288,13 +288,13 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
             <h1 className="text-3xl text-center font-bold mb-8">Liste des films</h1>
             {films.length === 0 && (
               <div className="text-center mt-8">
-                <p className="text-xl">Aucun film trouvé.</p>
+                <p className="text-xl">Chargement des films ...</p>
               </div>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
               {films.map((film) => (
-                <div key={film._id} className="bg-white rounded-lg overflow-hidden shadow-lg border-2 border-red-500 w-full max-w-xs cursor-pointer">
+                <div key={film._id} className="bg-white rounded-lg overflow-hidden shadow-lg border-2 border-silver-500 w-full max-w-xs cursor-pointer">
                   <img src={film.posterPath ? `https://image.tmdb.org/t/p/w500/${film.posterPath}` : filmImage} alt={film.originalTitle} className="w-full h-45 object-cover" onClick={() => openPopup(film)} />
                   <hr className="border-gray-400" />
                   <div className="px-6 py-4" onClick={() => openPopup(film)}>

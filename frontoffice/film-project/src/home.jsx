@@ -20,7 +20,7 @@ function Home({ setIsLoggedIn, csrfToken }) {
 
     try {
       const response = await axios.post(
-        'http://localhost:4040/login',
+        'https://maigalm.alwaysdata.net/login',
         { username, password },
         { headers: { 'CSRF-Token': csrfToken } }
       );
