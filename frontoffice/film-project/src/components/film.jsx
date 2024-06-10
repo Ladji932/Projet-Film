@@ -47,13 +47,13 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
 
       const [favorisResponse, vusResponse, aVoirResponse] = await Promise.all([
-        axios.get(`http://maigalm.alwaysdata.net/favoris/${userId}`, {
+        axios.get(`https://maigalm.alwaysdata.net/favoris/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        axios.get(`http://maigalm.alwaysdata.net/vu/${userId}`, {
+        axios.get(`https://maigalm.alwaysdata.net/vu/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        axios.get(`http://maigalm.alwaysdata.net/aVoir/${userId}`, {
+        axios.get(`https://maigalm.alwaysdata.net/aVoir/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
       ]);
@@ -88,7 +88,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
         return;
       }
 
-      const filmResponse = await axios.get(`http://maigalm.alwaysdata.net?page=${page}&limit=72`, {
+      const filmResponse = await axios.get(`https://maigalm.alwaysdata.net?page=${page}&limit=72`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -134,7 +134,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
 
     if (isFilmInFavoris(filmId)) {
       try {
-        await axios.delete(`http://maigalm.alwaysdata.net/favoris/remove/${userId}/${filmId}`, {
+        await axios.delete(`https://maigalm.alwaysdata.net/favoris/remove/${userId}/${filmId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setFavorisIds(prevFavorisIds => prevFavorisIds.filter(id => id !== filmId));
@@ -143,7 +143,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
     } else {
       try {
-        await axios.post('http://maigalm.alwaysdata.net/favorisPost/add', {
+        await axios.post('https://maigalm.alwaysdata.net/favorisPost/add', {
           userId: userId,
           movieId: filmId
         });
@@ -160,7 +160,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
 
     if (isFilmInVu(filmId)) {
       try {
-        await axios.delete(`http://maigalm.alwaysdata.net/vus/remove/${userId}/${filmId}`, {
+        await axios.delete(`https://maigalm.alwaysdata.net/vus/remove/${userId}/${filmId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setVuIds(prevVuIds => prevVuIds.filter(id => id !== filmId));
@@ -169,7 +169,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
     } else {
       try {
-        await axios.post('http://maigalm.alwaysdata.net/vu/add', {
+        await axios.post('https://maigalm.alwaysdata.net/vu/add', {
           userId: userId,
           movieId: filmId
         });
@@ -186,7 +186,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
 
     if (isFilmInAVoir(filmId)) {
       try {
-        await axios.delete(`http://maigalm.alwaysdata.net/aVoir/remove/${userId}/${filmId}`, {
+        await axios.delete(`https://maigalm.alwaysdata.net/aVoir/remove/${userId}/${filmId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setAVoirIds(prevAVoirIds => prevAVoirIds.filter(id => id !== filmId));
@@ -195,7 +195,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       }
     } else {
       try {
-        await axios.post('http://maigalm.alwaysdata.net/aVoir/voirAdd', {
+        await axios.post('https://maigalm.alwaysdata.net/aVoir/voirAdd', {
           userId: userId,
           movieId: filmId
         });

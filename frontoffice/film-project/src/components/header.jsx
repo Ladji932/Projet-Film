@@ -15,7 +15,7 @@ function Header({ handleLogout }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://maigalm.alwaysdata.net/search', { query: searchTerm });
+            const response = await axios.post('https://maigalm.alwaysdata.net/search', { query: searchTerm });
             const searchData = response.data;
             window.location.href = `/search-results/${encodeURIComponent(JSON.stringify(searchData))}`;
         } catch (error) {
@@ -26,7 +26,7 @@ function Header({ handleLogout }) {
     async function fetchAvatar() {
         try {
             const userId = localStorage.getItem('userId');
-            const avatarResponse = await axios.get(`http://maigalm.alwaysdata.net/avatar/${userId}`, {
+            const avatarResponse = await axios.get(`https://maigalm.alwaysdata.net/avatar/${userId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
@@ -62,7 +62,7 @@ function Header({ handleLogout }) {
                 </div>
                 <div>
                     <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-red-500 font-bold hover:text-red-300 focus:outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="https://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
                         </svg>
                     </button>

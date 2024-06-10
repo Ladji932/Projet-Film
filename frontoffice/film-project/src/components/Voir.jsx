@@ -17,7 +17,7 @@ function Voir({setIsLoggedIn}) {
           return;
         }
 
-        const response = await axios.get(`http://maigalm.alwaysdata.net/getVoirMovies/${userId}`, {
+        const response = await axios.get(`https://maigalm.alwaysdata.net/getVoirMovies/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -63,7 +63,7 @@ function Voir({setIsLoggedIn}) {
   const handleRemoveVoir = async (filmId) => {
     try {
       const userId = localStorage.getItem('userId');
-      await axios.delete(`http://maigalm.alwaysdata.net/aVoir/remove/${userId}/${filmId}`);
+      await axios.delete(`https://maigalm.alwaysdata.net/aVoir/remove/${userId}/${filmId}`);
 
       setVoir(prevVoir => prevVoir.filter(film => film._id !== filmId));
     } catch (error) {
