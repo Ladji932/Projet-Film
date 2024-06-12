@@ -283,7 +283,6 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
             ))}
           </Slider>
 
-          {/* Liste des films */}
           <div className="container mx-auto p-12">
             <h1 className="text-3xl text-center font-bold mb-8">Liste des films</h1>
             {films.length === 0 && (
@@ -332,21 +331,23 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
             </div>
 
             {films.length > 0 && (
-              <div className="flex justify-center mt-8">
-                <button
-                  onClick={() => handlePageChange(page + 1)}
-                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
-                >
-                  Page Suivante
-                </button>
-              </div>
+                <div className="flex justify-center mt-8">
+    {page > 1 && (
+      <button onClick={() => handlePageChange(page - 1)} className="mr-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">
+        Précédent
+      </button>
+    )}
+    <button onClick={() => handlePageChange(page + 1)} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">
+      Suivant
+    </button>
+  </div>
             )}
           </div>
         </div>
 
         {showScrollButton && (
           <button
-            className="fixed bottom-4 right-4 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full shadow-lg"
+            className="fixed bottom-4 right-4 bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg"
             onClick={scrollToTop}
           >
             ↑

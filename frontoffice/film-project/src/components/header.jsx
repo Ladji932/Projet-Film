@@ -45,7 +45,8 @@ function Header({ handleLogout }) {
         <header className="bg-gray-800 py-4 fixed w-full top-0 z-10">
             <nav className="container mx-auto flex justify-between items-center px-4">
                 <div className="flex items-center">
-                    <Link to="/film" className="text-white text-2xl font-bold">Ladji</Link>
+                    <Link to="/film" className="text-white text-xl pr-10">Cinémathèque</Link>
+
                     <form onSubmit={handleSubmit} className="ml-4">
                         <input
                             type="text"
@@ -58,7 +59,8 @@ function Header({ handleLogout }) {
                     </form>
                 </div>
                 <div className="flex items-center justify-center flex-grow">
-                    {avatar && <img src={`data:image/jpeg;base64,${avatar}`} alt="Avatar de l'utilisateur" className="h-10 w-10 rounded-full border-2 border-black-500 mx-auto" />}
+                    {avatar && <img src={`data:image/jpeg;base64,${avatar}`} alt="Avatar de l'utilisateur"
+                           className="h-10 w- bg-cover bg-center"  />}
                 </div>
                 <div>
                     <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-red-500 font-bold hover:text-red-300 focus:outline-none">

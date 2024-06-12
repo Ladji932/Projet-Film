@@ -14,9 +14,9 @@ console.log('URI MongoDB :', process.env.MONGODB_URI);
 const connectToDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 120000,  // 2 minutes
-      connectTimeoutMS: 120000,          // 2 minutes
-      socketTimeoutMS: 120000,           // 2 minutes
+      serverSelectionTimeoutMS: 120000,  
+      connectTimeoutMS: 120000,          
+      socketTimeoutMS: 120000,           
     });
     console.log('Connecté à MongoDB');
   } catch (err) {
@@ -35,18 +35,14 @@ db.once('open', async function() {
   console.log("Connexion à MongoDB ouverte");
 
   try {
-    // Vérification de l'existence de la collection 'films'
     const collections = await mongoose.connection.db.listCollections({ name: 'films' }).toArray();
     if (collections.length === 0) {
       console.log("La collection 'films' n'existe pas.");
     } else {
       console.log("La collection 'films' existe.");
-      // Vérification des documents dans la collection 'films'
       const result = await mongoose.connection.db.collection('films').find().limit(1).toArray();
-      console.log('Films récupérés :', result);
     }
 
-    // Testez une requête simple pour vérifier la connexion
     const count = await mongoose.connection.db.collection('films').countDocuments();
     console.log('Nombre de documents dans la collection films :', count);
   } catch (err) {
