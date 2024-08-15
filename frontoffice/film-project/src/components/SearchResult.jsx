@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import Header from './header';
 
 function SearchResult() {
     const location = useLocation();
@@ -13,12 +12,6 @@ function SearchResult() {
     useEffect(() => {
         const fetchFilmData = async () => {
             try {
-                const token = localStorage.getItem('token');
-
-                if (!token) {
-                    return;
-                }
-
                 const filmDataWithImages = await Promise.all(
                     searchTerms.map(async (term) => {
                         try {
@@ -39,16 +32,22 @@ function SearchResult() {
                                 return term;
                             }
                         } catch (error) {
-                            console.error('Error fetching TMDB data:', error);
+                            console.error('Erreur lors de la récupération des données TMDB :', error);
                             return term;
                         }
                     })
                 );
 
-                setSearchResultsWithImages(filmDataWithImages);
+                // Filtrer les doublons en utilisant un Set
+                const uniqueResults = Array.from(new Map(
+                    filmDataWithImages.map(item => [item.originalTitle, item]) // Utiliser `originalTitle` comme clé unique
+                ).values());
+
+                setSearchResultsWithImages(uniqueResults);
                 setIsLoading(false);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Erreur lors de la récupération des données :', error);
+                setIsLoading(false);
             }
         };
 

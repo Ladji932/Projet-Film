@@ -63,7 +63,6 @@ function Map({ userLocation , setIsLoggedIn }) {
 
   return (
   <div>
-    <Header handleLogout={handleLogout} />
     <div className="w-full h-screen flex flex-col bg-gradient-to-b from-purple-900 to-purple-800 text-white">
       <div className="h-3/5 border-b-2 border-gray-600 mt-15">
         {userLocation ? (

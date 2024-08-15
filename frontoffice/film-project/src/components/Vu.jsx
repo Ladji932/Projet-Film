@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Header from './header';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Assure-toi que `Link` est importé
 
-function Seen({setIsLoggedIn}) {
+function Seen({ setIsLoggedIn }) {
   const [seen, setSeen] = useState([]);
-    const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const isUserLoggedIn = !!localStorage.getItem('token'); // Vérifie si l'utilisateur est connecté
 
   useEffect(() => {
-    const fetchVu = async () => {
+    if (!isUserLoggedIn) {
+      setIsLoading(false); // Mettre à jour le chargement une fois la vérification terminée
+      return; // Ne pas exécuter la requête si l'utilisateur n'est pas connecté
+    }
+
+    const fetchSeen = async () => {
       try {
         const userId = localStorage.getItem('userId');
         const token = localStorage.getItem('token');
@@ -22,8 +28,6 @@ function Seen({setIsLoggedIn}) {
             'Authorization': `Bearer ${token}`
           }
         });
-
-        console.log(response.data.vus); // Vérifiez les données reçues dans la console
 
         const seenWithImages = await Promise.all(
           response.data.vus.map(async (film) => {
@@ -53,61 +57,78 @@ function Seen({setIsLoggedIn}) {
 
         setSeen(seenWithImages);
       } catch (error) {
-        console.error('Error fetching vu:', error);
+        console.error('Error fetching seen movies:', error);
+        setError('Une erreur est survenue lors du chargement des films vus.');
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchVu();
-  }, []);
+    fetchSeen();
+  }, [isUserLoggedIn]); // Re-exécuter l'effet lorsque l'état de connexion change
 
   const handleRemoveFavoris = async (filmId) => {
     try {
       const userId = localStorage.getItem('userId');
       await axios.delete(`https://maigalm.alwaysdata.net/vus/remove/${userId}/${filmId}`);
-
       setSeen(prevSeen => prevSeen.filter(film => film._id !== filmId));
     } catch (error) {
-      console.error('Error removing from favorites:', error);
+      console.error('Error removing from seen:', error);
+      setError('Une erreur est survenue lors de la suppression du film.');
     }
   };
 
-    const handleLogout = () => {
+  const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     navigate('/');
   };
 
   return (
-    <>
-      <div className='favoris bg-gray-900 text-white min-h-screen pt-16'>
-        <div className="container mx-auto py-8 p-10">
-          <h1 className="text-3xl font-bold mb-4">Film vu</h1>
+    <div className='seen bg-gray-900 text-white min-h-screen pt-16'>
+      <div className="container mx-auto py-8 p-10">
+        <h1 className="text-3xl font-bold mb-4">Films vus</h1>
+        {isLoading ? (
+          <p className="text-center text-xl">Chargement...</p>
+        ) : !isUserLoggedIn ? (
+          <div className="text-center">
+            <p className="text-xl mb-4">Veuillez vous connecter pour gérer vos films vus.</p>
+            <div>
+              <Link to="/login" className="inline-block text-sm bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded mr-2">
+                Se connecter
+              </Link>
+              <Link to="/inscription" className="inline-block text-sm bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded">
+                S'inscrire
+              </Link>
+            </div>
+          </div>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : seen.length > 0 ? (
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {seen && seen.length > 0 ? (
-              seen.map((film) => (
-                <li key={film._id} className="bg-gray-800 shadow-md rounded-lg p-4 border border-gray-700">
-                  <div>
-                    {film.posterPath && (
-                      <img src={`https://image.tmdb.org/t/p/w500/${film.posterPath}`} alt={film.originalTitle} className="mt-4 w-full rounded-lg shadow-lg" />
-                    )}
-                    <p className="font-blue">Titre original: {film.originalTitle}</p>
-                    <p>Pays: {film.country}</p>
-                    <p>Genre: {film.gender}</p>
-                    <p>Résumé: {film.synopsis}</p>
-                    <p>Temps: {film.time}</p>
-                    <button onClick={() => handleRemoveFavoris(film._id)} className="bg-red-500 text-white px-4 py-2 rounded-md mt-2 mr-2 hover:bg-red-600 focus:outline-none">
-                      Supprimer le film vu
-                    </button>
-                  </div>
-                </li>
-              ))
-            ) : (
-              <p>Aucun film vu</p>
-            )}
+            {seen.map((film) => (
+              <li key={film._id} className="bg-gray-800 shadow-lg rounded-lg p-4 border border-gray-700">
+                <div>
+                  {film.posterPath && (
+                    <img src={`https://image.tmdb.org/t/p/w500/${film.posterPath}`} alt={film.originalTitle} className="mt-4 w-full rounded-lg shadow-md" />
+                  )}
+                  <p className="text-lg font-semibold mt-2">Titre original: {film.originalTitle}</p>
+                  <p>Pays: {film.country}</p>
+                  <p>Genre: {film.gender}</p>
+                  <p>Résumé: {film.synopsis}</p>
+                  <p>Temps: {film.time}</p>
+                  <button onClick={() => handleRemoveFavoris(film._id)} className="bg-red-500 text-white px-4 py-2 rounded-md mt-4 hover:bg-red-600 focus:outline-none">
+                    Supprimer du film vu
+                  </button>
+                </div>
+              </li>
+            ))}
           </ul>
-        </div>
+        ) : (
+          <p className="text-center text-xl">Aucun film vu</p>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
