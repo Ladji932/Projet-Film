@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
 import { Link } from 'react-router-dom';
 
+
 function Header({ handleLogout, setIsLoggedIn, isLoggedIn }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [avatar, setAvatar] = useState(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const isUserLoggedIn = !!localStorage.getItem('token');
+
 
 
     const handleChange = (event) => {

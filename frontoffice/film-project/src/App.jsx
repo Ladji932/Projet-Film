@@ -10,8 +10,11 @@ import 'tailwindcss/tailwind.css';
 import Voir from './components/Voir';
 import Map from './components/Map';
 import Header from './components/header';
+import { useNavigate } from 'react-router-dom';
+
 
 function App() {
+  const navigate = useNavigate();
   const [favoris, setFavoris] = useState(() => {
     const favorisFromStorage = localStorage.getItem('favoris');
     return favorisFromStorage ? JSON.parse(favorisFromStorage) : [];
