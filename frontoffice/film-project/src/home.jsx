@@ -30,6 +30,7 @@ function Home({ setIsLoggedIn, csrfToken }) {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId); 
         navigate("/")
+        window.location.reload();
 
       } else {
         setError("Réponse de serveur incorrecte");
