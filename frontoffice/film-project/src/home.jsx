@@ -25,13 +25,12 @@ function Home({ setIsLoggedIn, csrfToken }) {
         { headers: { 'CSRF-Token': csrfToken } }
       );
 
-      // Vérifier si response est défini
       if (response && response.data) {
-        const { token, userId } = response.data; // Récupération de l'ID de l'utilisateur
+        const { token, userId } = response.data; 
         localStorage.setItem('token', token);
-        localStorage.setItem('userId', userId); // Stockage de l'ID de l'utilisateur dans le stockage local
-        setIsLoggedIn(true);
-        navigate('/Film');
+        localStorage.setItem('userId', userId); 
+        navigate("/")
+
       } else {
         setError("Réponse de serveur incorrecte");
       }

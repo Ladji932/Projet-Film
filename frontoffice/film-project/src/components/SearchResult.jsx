@@ -57,7 +57,6 @@ function SearchResult() {
 
     return (
         <div>
-            <Header />
             <div className="bg-gray-900 text-white min-h-screen pt-16">
                 <div className="container mx-auto py-8 px-4">
                     <h1 className="text-3xl font-bold mb-8 text-center">Résultats de la recherche</h1>

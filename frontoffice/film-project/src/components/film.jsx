@@ -23,6 +23,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
   const [selectedFilm, setSelectedFilm] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const isUserLoggedIn = !!localStorage.getItem('token');
 
   useEffect(() => {
     fetchData();
@@ -41,10 +42,11 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       const userId = localStorage.getItem('userId');
       const token = localStorage.getItem('token');
 
+      /*
       if (!userId || !token) {
         navigate('/connexion');
         return;
-      }
+      }*/
 
       const [favorisResponse, vusResponse, aVoirResponse] = await Promise.all([
         axios.get(`https://maigalm.alwaysdata.net/favoris/${userId}`, {
@@ -83,10 +85,11 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
     try {
       const token = localStorage.getItem('token');
 
+      /*
       if (!token) {
         navigate('/connexion');
         return;
-      }
+      }*/
 
       const filmResponse = await axios.get(`https://maigalm.alwaysdata.net?page=${page}&limit=72`, {
         headers: {
@@ -207,10 +210,11 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
+    localStorage.removeItem('userId');
     navigate('/');
-  };
+    window.location.reload();
+};
+
 
   const isFilmInFavoris = (filmId) => favorisIds.includes(filmId);
   const isFilmInVu = (filmId) => vuIds.includes(filmId);
@@ -272,7 +276,6 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
 
   return (
     <>
-      <Header handleLogout={handleLogout} />
       <div className="bg-black text-white min-h-screen">
         <div className="container mx-auto py-8 px-12">
           <Slider {...settings}>
@@ -304,11 +307,13 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
                     <p className="text-black font-bold text-sm">Temps: {film.time}</p>
                     <p className="text-black font-bold text-sm">Année: {film.years}</p>
                   </div>
-                  <div className="flex justify-between px-6 py-2 space-x-2">
 
+                  {isUserLoggedIn && (
+                  <div className="flex justify-between px-6 py-2 space-x-2">
                   <button onClick={() => handleToggleFavoris(film._id)} className={`px-1 py-1 rounded-md text-xs ${isFilmInFavoris(film._id) ? 'bg-red-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}>
                 {isFilmInFavoris(film._id) ? <IoBookmarkSharp size={20} /> : <IoBookmarkOutline size={20} />}
                 </button>
+
 
                     
                <button
@@ -318,14 +323,15 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
                {isFilmInVu(film._id) ? <IoEyeOutline size={20}/> : <IoEyeOffOutline size={20}/>} {/* Utilisation de IoEyeOutline pour les vus */}
               </button>
 
-<button
-  onClick={() => handleToggleAVoir(film._id)}
-  className={`px-1 py-1 rounded-md text-xs ${isFilmInAVoir(film._id) ? 'bg-red-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
->
-  {isFilmInAVoir(film._id) ? <MdOutlineWatchLater size={20} /> : <MdWatchLater size={20}/>}  {/* Utilisation de IoEyeOutline également pour les à voir */}
-</button>
+              <button
+              onClick={() => handleToggleAVoir(film._id)}
+              className={`px-1 py-1 rounded-md text-xs ${isFilmInAVoir(film._id) ? 'bg-red-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+              >
+            {isFilmInAVoir(film._id) ? <MdOutlineWatchLater size={20} /> : <MdWatchLater size={20}/>}  {/* Utilisation de IoEyeOutline également pour les à voir */}
+            </button>
 
                   </div>
+                    )}
                 </div>
               ))}
             </div>
@@ -372,6 +378,7 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
       </div>
               <p className="mb-1 p-4 text-1.3em">{selectedFilm.synopsis}
               </p>
+              {isUserLoggedIn && (
       <div className="flex justify-between px-1 py-1 space-x-1">
         <button
           onClick={() => handleToggleFavoris(selectedFilm._id)}
@@ -392,6 +399,8 @@ function Film({ favoris, setFavoris, setIsLoggedIn }) {
           {isFilmInAVoir(selectedFilm._id) ? <MdWatchLater size={20}/> : <MdOutlineWatchLater size={20} />}
         </button>
       </div>
+                          )}
+
     </div>
   </div>
 )}

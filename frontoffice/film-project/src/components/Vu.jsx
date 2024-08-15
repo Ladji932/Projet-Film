@@ -79,7 +79,6 @@ function Seen({setIsLoggedIn}) {
 
   return (
     <>
-      <Header handleLogout={handleLogout} />
       <div className='favoris bg-gray-900 text-white min-h-screen pt-16'>
         <div className="container mx-auto py-8 p-10">
           <h1 className="text-3xl font-bold mb-4">Film vu</h1>

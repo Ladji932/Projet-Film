@@ -11,6 +11,7 @@ app.set('view engine', 'ejs');
 console.log('Configuration chargée depuis le fichier .env');
 console.log('URI MongoDB :', process.env.MONGODB_URI);
 
+/*
 const connectToDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
@@ -25,6 +26,10 @@ const connectToDatabase = async () => {
 };
 
 connectToDatabase();
+*/
+
+mongoose.connect('mongodb://localhost:27017/filmsDB');
+
 
 const db = mongoose.connection;
 db.on('error', (error) => {
@@ -64,4 +69,3 @@ app.listen(PORT, () => {
 
 module.exports = app;
 
-//mongoose.connect('mongodb://localhost:27017/filmsDB');
