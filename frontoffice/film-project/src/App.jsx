@@ -49,8 +49,8 @@ function App() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
     localStorage.setItem('isLoggedIn', 'false');
-    window.location.reload();
     navigate("/")
+    window.location.reload();
 
   };
 
